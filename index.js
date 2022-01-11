@@ -5,6 +5,7 @@ const app = express()
 
 
 app.use(express.json())
+app.use(express.static('build'))
 
 // step 8 & 9: logging with morgan
 const morgan = require('morgan')
@@ -33,7 +34,7 @@ let persons = [
     {
         "id": 4,
         "name": "Mary Poppendieck",
-        "number": "99-23-6423122"
+        "number": "88-23-6423122"
     }
 ]
 
