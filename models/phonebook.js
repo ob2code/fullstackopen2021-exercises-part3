@@ -23,7 +23,7 @@ const phonebookSchema = new mongoose.Schema({
             validator: function (v) {
                 return /\d{3}-\d{5}/.test(v)
             },
-            message: props => `${props.value} is not valid, the phone number format must have at least 8 digits!`
+            message: props => `${props.value} is not valid, the phone number format must have at least 8 digits with format xxx-xxxxxxxx!`
         }
     }
 })
