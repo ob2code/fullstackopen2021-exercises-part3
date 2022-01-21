@@ -1,12 +1,15 @@
+/*global process*/
+/*eslint no-undef: "error"*/
+
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require('mongoose-unique-validator')
 
 const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
 
 mongoose.connect(url)
-    .then(result => {
+    .then(() => {
         console.log('connected to MongoDB')
     })
     .catch((error) => {
@@ -18,7 +21,7 @@ const phonebookSchema = new mongoose.Schema({
     number: {
         type: String, validate: {
             validator: function (v) {
-                return /\d{3}-\d{5}/.test(v);
+                return /\d{3}-\d{5}/.test(v)
             },
             message: props => `${props.value} is not valid, the phone number format must have at least 8 digits!`
         }
@@ -26,7 +29,7 @@ const phonebookSchema = new mongoose.Schema({
 })
 
 
-phonebookSchema.plugin(uniqueValidator);
+phonebookSchema.plugin(uniqueValidator)
 
 
 phonebookSchema.set('toJSON', {

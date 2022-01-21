@@ -1,3 +1,6 @@
+/*global process*/
+/*eslint no-undef: "error"*/
+
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
@@ -23,7 +26,7 @@ const errorHandler = (error, request, response, next) => {
 
 // step 8 & 9: logging with morgan
 const morgan = require('morgan')
-morgan.token('data', function (req, res) { return JSON.stringify(req.body) })
+morgan.token('data', function (req) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 app.use(cors())
@@ -43,8 +46,10 @@ app.get('/api/persons', (request, response) => {
 
 // step 2: display total of persons and request time
 app.get('/info', (request, response) => {
-    const reqTime = new Date();
-    response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${reqTime.toString()}</p>`)
+    const reqTime = new Date()
+    Phonebook.countDocuments({}, (err, count) => {
+        response.send(`<p>Phonebook has info for ${count} people</p><p>${reqTime.toString()}</p>`)
+    })
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -65,7 +70,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 // step 3.15
 app.delete('/api/persons/:id', (request, response, next) => {
     Phonebook.findByIdAndRemove(request.params.id)
-        .then(result => {
+        .then(() => {
             response.status(204).end()
         })
         .catch(error => next(error))

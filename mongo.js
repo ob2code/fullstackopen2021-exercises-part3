@@ -1,3 +1,5 @@
+/*global process*/
+/*eslint no-undef: "error"*/
 
 if (process.argv.length < 3) {
     console.log('Please provide the password as an argument: node mongo.js <password>')
@@ -19,7 +21,7 @@ const phonebookSchema = new mongoose.Schema({
 
 const Phonebook = mongoose.model('Phonebook', phonebookSchema)
 
-if (process.argv.length == 3) {    
+if (process.argv.length == 3) {
     Phonebook.find({},).then(result => {
         result.forEach(phonebook => {
             console.log(phonebook.name, ' ', phonebook.number)
@@ -35,7 +37,7 @@ if (process.argv.length == 5) {
         number: process.argv[4],
     })
 
-    phonebook.save().then(result => {
+    phonebook.save().then(() => {
         console.log(`added ${phonebook.name} number ${phonebook.number} to phonebook`)
         mongoose.connection.close()
     })
